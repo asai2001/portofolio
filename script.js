@@ -23,17 +23,24 @@ function initParticles() {
     const canvas = document.getElementById('particles-canvas');
     if (!canvas) return;
 
+    // Skip particles on mobile — address bar resize causes flicker/zoom effect
+    if (window.innerWidth <= 768) return;
+
     const ctx = canvas.getContext('2d');
     let particles = [];
     let mouse = { x: null, y: null };
 
     function resize() {
         canvas.width = window.innerWidth;
+        // Use screen.height on mobile to avoid resize on address bar toggle
         canvas.height = window.innerHeight;
     }
 
     resize();
-    window.addEventListener('resize', resize);
+    // Only re-run resize on orientation change (not every scroll/resize on mobile)
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) resize();
+    });
 
     window.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;

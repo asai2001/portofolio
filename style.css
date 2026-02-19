@@ -103,6 +103,12 @@ img {
     pointer-events: none;
 }
 
+@media (max-width: 768px) {
+    #particles-canvas {
+        display: none;
+    }
+}
+
 /* ========================================
    Utility Classes
    ======================================== */
