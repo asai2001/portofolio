@@ -345,27 +345,48 @@ function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const btn = form.querySelector('button[type="submit"]');
         const originalText = btn.innerHTML;
 
-        // Simulate sending
+        // Change button state to sending
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         btn.disabled = true;
 
-        setTimeout(() => {
-            btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-            btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
 
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = '';
-                btn.disabled = false;
+            if (response.ok) {
+                // Success state
+                btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+                btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
                 form.reset();
-            }, 2500);
-        }, 1500);
+            } else {
+                // Server error state
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error Sending';
+                btn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
+            }
+        } catch (error) {
+            // Network error state
+            btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Network Error';
+            btn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
+        }
+
+        // Reset button after delay
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+            btn.disabled = false;
+        }, 3000);
     });
 }
 
