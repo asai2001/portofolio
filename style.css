@@ -12,7 +12,8 @@
 
     --text-primary: #f1f5f9;
     --text-secondary: #94a3b8;
-    --text-tertiary: #64748b;
+    --text-tertiary: #cbd5e1;
+    /* Increased from #64748b for better contrast */
 
     --accent-cyan: #06b6d4;
     --accent-violet: #8b5cf6;
@@ -931,14 +932,15 @@ img {
     overflow: hidden;
     backdrop-filter: blur(10px);
     transition: all var(--transition-medium);
+    transform: translateY(0);
 }
 
 .project-card:hover {
     transform: translateY(-8px);
-    border-color: rgba(139, 92, 246, 0.3);
+    border-color: rgba(139, 92, 246, 0.4);
     box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.3),
-        0 0 30px rgba(139, 92, 246, 0.08);
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(139, 92, 246, 0.15);
 }
 
 .project-card.hidden {
